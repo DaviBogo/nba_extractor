@@ -1,19 +1,16 @@
-[project]
+[tool.poetry]
 name = "nba-extractor"
 version = "0.1.0"
 description = ""
-authors = [
-    {name = "Davi Vinicius Bogo"}
-]
+authors = ["Davi Vinicius Bogo <bogodavi10@gmail.com>"]
 readme = "README.md"
-requires-python = ">=3.9,<3.13"
-dependencies = [
-    "nba-api (==1.7)",
-    "pandas (>=2.2.3,<3.0.0)",
-    "apache-airflow (>=2.10.4,<3.0.0)"
-]
 
+[tool.poetry.dependencies]
+nba-api = "^1.7"
+pandas = "^2.0.0"
+apache-airflow = "^2.10.1"
+google-cloud-dataform = "^0.5.14"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
