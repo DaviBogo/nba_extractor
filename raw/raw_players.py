@@ -2,7 +2,7 @@ import pandas as pd
 from nba_api.stats.endpoints import commonallplayers
 from utils import transform, load
 from datetime import datetime
-from extractors.config import settings
+from raw.config import settings
 from pydantic_settings import BaseSettings
 from pathlib import Path
 
