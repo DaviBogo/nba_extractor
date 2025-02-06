@@ -17,6 +17,6 @@ RUN /bin/bash -c ' \
     mkdir -p $HOME/.config/gcloud/ && \
     echo "$APPLICATION_DEFAULT_CREDENTIALS_JSON" > $GOOGLE_APPLICATION_CREDENTIALS'
 
-RUN poetry install --no-root --without dev
+RUN poetry install --no-root --only main
 
 USER airflow

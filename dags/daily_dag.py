@@ -6,7 +6,7 @@ sys.path.append(root_dir)
 from airflow import DAG
 from datetime import datetime
 from airflow.operators.python import PythonOperator
-from extractors.raw_players import raw_players
+from raw.players import bronze_players
 
 
 with DAG(
@@ -16,7 +16,7 @@ with DAG(
     catchup=False,
     ) as dag:
 
-    raw_players = PythonOperator(
-        task_id = "raw_players",
-        python_callable=raw_players
+    bronze_players = PythonOperator(
+        task_id = "bronze_players",
+        python_callable=bronze_players
     )

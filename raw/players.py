@@ -2,19 +2,12 @@ import pandas as pd
 from nba_api.stats.endpoints import commonallplayers
 from utils import transform, load
 from datetime import datetime
-from raw.config import settings
+from settings.config import settings
 from pydantic_settings import BaseSettings
 from pathlib import Path
 
 class BigQuerySchema(BaseSettings):
-    IsActive: str
-    Username: str
-    UserRoleId: str
-    ProfileId: str
-    Name: str
-    IdSAP__c: str
-    Department: str
-    Division: str
+    PersonId: str
     exported_at: datetime
 
 def bronze_players():

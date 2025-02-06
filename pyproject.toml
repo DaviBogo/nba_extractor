@@ -6,7 +6,7 @@ authors = ["Davi Vinicius Bogo <bogodavi10@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "=3.10.12"
+python = ">=3.10,<3.13"
 nba-api = "^1.7"
 pandas = "^2.0.0"
 apache-airflow = "^2.10.1"
