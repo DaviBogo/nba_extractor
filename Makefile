@@ -6,8 +6,7 @@ poetry-uninstall:
 
 poetry-install-config:
 	curl -sSL https://install.python-poetry.org | python3.10 - && \
-		export PATH="$$HOME/.local/bin:$$PATH"  && \
-		poetry config virtualenvs.in-project true	&& \
+		export PATH="$$HOME/.local/bin:$$PATH"	&& \
 		poetry self add keyrings.google-artifactregistry-auth
 
 create-dev-env:
