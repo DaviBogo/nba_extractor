@@ -64,6 +64,7 @@ class BigQuerySchema(BaseSettings):
     PFD_RANK: int
     PTS_RANK: int
     PLUS_MINUS_RANK: int
+    season: str
     exported_at: datetime
 
 def bronze_players():
