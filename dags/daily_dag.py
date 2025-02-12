@@ -8,6 +8,7 @@ from datetime import datetime
 from airflow.operators.python import PythonOperator
 from raw.players import bronze_players
 from raw.stats import bronze_stats
+from raw.teams import bronze_teams
 
 
 with DAG(
@@ -25,4 +26,9 @@ with DAG(
     bronze_stats = PythonOperator(
         task_id = "bronze_stats",
         python_callable=bronze_stats
+    )
+
+    bronze_teams = PythonOperator(
+        task_id = "bronze_teams",
+        python_callable=bronze_teams
     )
