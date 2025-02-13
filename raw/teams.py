@@ -3,8 +3,9 @@ from nba_api.stats.endpoints import leaguedashteamstats
 from datetime import datetime
 from pydantic_settings import BaseSettings
 from pathlib import Path
-from utils import transform, load
-from settings.config import settings
+from raw.utils import transform, load
+from raw.settings.config import settings
+import time
 import logging
 
 logger = logging.getLogger(__name__)
@@ -37,37 +38,30 @@ class BigQuerySchema(BaseSettings):
     PF: int
     PFD: int
     PTS: int
-    PLUS_MINUS: float
-    GP_RANK: int
-    W_RANK: int
-    L_RANK: int
-    W_PCT_RANK: int
-    MIN_RANK: int
-    FGM_RANK: int
-    FGA_RANK: int
-    FG_PCT_RANK: float
-    FG3M_RANK: int
-    FG3A_RANK: int
-    FG3_PCT_RANK: float
-    FTM_RANK: int
-    FTA_RANK: int
-    FT_PCT_RANK: float
-    OREB_RANK: int
-    DREB_RANK: int
-    REB_RANK: int
-    AST_RANK: int
-    TOV_RANK: int
-    STL_RANK: int
-    BLK_RANK: int
-    BLKA_RANK: int
-    PF_RANK: int
-    PFD_RANK: int
-    PTS_RANK: int
-    PLUS_MINUS_RANK: int
+    OPP_FGM: int
+    OPP_FGA: int
+    OPP_FG_PCT: float
+    OPP_FG3M: int
+    OPP_FG3A: int
+    OPP_FG3_PCT: float
+    OPP_FTM: int
+    OPP_FTA: int
+    OPP_FT_PCT: float
+    OPP_OREB: int
+    OPP_DREB: int
+    OPP_REB: int
+    OPP_AST: int
+    OPP_TOV: int
+    OPP_STL: int
+    OPP_BLK: int
+    OPP_BLKA: int
+    OPP_PF: int
+    OPP_PFD: int
+    OPP_PTS: int
     season: str
     exported_at: datetime
 
-def bronze_players():
+def bronze_teams():
     try:
         BQ_PROJECT = settings.BQ_PROJECT
         BQ_DATASET = 'bronze'
@@ -78,9 +72,14 @@ def bronze_players():
         all_stats = []
         for season in seasons:
             season_stats = leaguedashteamstats.LeagueDashTeamStats(season=season)
+            season_stats_opp = leaguedashteamstats.LeagueDashTeamStats(season=season, measure_type_detailed_defense='Opponent')
             df_season = pd.DataFrame(season_stats.get_data_frames()[0])
-            df_season['season'] = season
-            all_stats.append(df_season)
+            df_season_opp = pd.DataFrame(season_stats_opp.get_data_frames()[0])
+            df_season_opp = df_season_opp.drop(columns=["TEAM_NAME", "GP", "W", "L", "W_PCT", "MIN"])
+            df_merged = pd.merge(df_season, df_season_opp, on="TEAM_ID", how="inner")
+            df_merged['season'] = season
+            all_stats.append(df_merged)
+            time.sleep(1)
 
         df_data = pd.concat(all_stats)
         df_data = transform.add_exported_datetime(df_data)
@@ -100,5 +99,4 @@ def bronze_players():
         raise e
 
 if __name__ == '__main__':
-
-    bronze_players()
+    bronze_teams()
