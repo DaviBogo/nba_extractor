@@ -6,7 +6,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def run_dataform_health_score():
+def run_dataform_nba_stats():
 
     client = dataform_v1beta1.DataformClient()
 
@@ -47,4 +47,4 @@ def run_dataform_health_score():
 
 
 if __name__=="__main__":
-    run_dataform_health_score()
+    run_dataform_nba_stats()
