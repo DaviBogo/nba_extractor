@@ -13,13 +13,13 @@ def run_dataform_nba_stats():
     BQ_PROJECT = settings.BQ_PROJECT
     SCRIPT = Path(__file__).stem
     LOCATION = 'southamerica-east1'
-    REPO = 'nba-pipeline-project'
-    WORKFLOW = 'run-nba-pipeline'
+    GIT_REPO = 'nba_dataform'
+    WORKFLOW = 'workflow_run_main'
 
     logger.info({"message": f"Starting {SCRIPT} workflow.."})
 
-    repo_uri = f'projects/{BQ_PROJECT}/locations/{LOCATION}/repositories/{REPO}'
-    workflow_config = f'projects/{BQ_PROJECT}/locations/{LOCATION}/repositories/{REPO}/workflowConfigs/{WORKFLOW}'
+    repo_uri = f'projects/{BQ_PROJECT}/locations/{LOCATION}/repositories/{GIT_REPO}'
+    workflow_config = f'projects/{BQ_PROJECT}/locations/{LOCATION}/repositories/{GIT_REPO}/workflowConfigs/{WORKFLOW}'
 
     request = dataform_v1beta1.CreateWorkflowInvocationRequest(
         parent=repo_uri,
