@@ -15,7 +15,7 @@ from raw.dataform_nba_stats import run_dataform_nba_stats
 with DAG(
     "daily_dag",
     start_date=datetime(2024, 9, 23),
-    schedule="0 9 * * *",
+    schedule="*/15 * * * *",
     catchup=False,
     ) as dag:
 

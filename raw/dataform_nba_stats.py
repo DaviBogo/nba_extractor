@@ -1,7 +1,7 @@
 import time
 from pathlib import Path
 from google.cloud import dataform_v1beta1
-from settings.config import settings
+from raw.settings.config import settings
 import logging
 
 logger = logging.getLogger(__name__)
