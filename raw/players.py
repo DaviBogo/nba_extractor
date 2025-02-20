@@ -25,6 +25,7 @@ class BigQuerySchema(BaseSettings):
     TEAM_CODE: str
     GAMES_PLAYED_FLAG: str
     OTHERLEAGUE_EXPERIENCE_CH: str
+    season: str
     exported_at: datetime
 
 def bronze_players():
