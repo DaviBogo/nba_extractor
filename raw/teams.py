@@ -38,26 +38,8 @@ class BigQuerySchema(BaseSettings):
     PF: int
     PFD: int
     PTS: int
-    OPP_FGM: int
-    OPP_FGA: int
-    OPP_FG_PCT: float
-    OPP_FG3M: int
-    OPP_FG3A: int
-    OPP_FG3_PCT: float
-    OPP_FTM: int
-    OPP_FTA: int
-    OPP_FT_PCT: float
-    OPP_OREB: int
-    OPP_DREB: int
-    OPP_REB: int
-    OPP_AST: int
-    OPP_TOV: int
-    OPP_STL: int
-    OPP_BLK: int
-    OPP_BLKA: int
-    OPP_PF: int
-    OPP_PFD: int
-    OPP_PTS: int
+    PACE: float
+    POSS: float
     season: str
     exported_at: datetime
 
@@ -72,11 +54,11 @@ def bronze_teams():
         all_stats = []
         for season in seasons:
             season_stats = leaguedashteamstats.LeagueDashTeamStats(season=season)
-            season_stats_opp = leaguedashteamstats.LeagueDashTeamStats(season=season, measure_type_detailed_defense='Opponent')
+            season_stats_adv = leaguedashteamstats.LeagueDashTeamStats(season=season, measure_type_detailed_defense='Advanced')
             df_season = pd.DataFrame(season_stats.get_data_frames()[0])
-            df_season_opp = pd.DataFrame(season_stats_opp.get_data_frames()[0])
-            df_season_opp = df_season_opp.drop(columns=["TEAM_NAME", "GP", "W", "L", "W_PCT", "MIN"])
-            df_merged = pd.merge(df_season, df_season_opp, on="TEAM_ID", how="inner")
+            df_season_adv = pd.DataFrame(season_stats_adv.get_data_frames()[0])
+            df_season_adv = df_season_adv[['TEAM_ID', 'PACE', 'POSS']]
+            df_merged = pd.merge(df_season, df_season_adv, on="TEAM_ID", how="inner")
             df_merged['season'] = season
             all_stats.append(df_merged)
             time.sleep(1)
