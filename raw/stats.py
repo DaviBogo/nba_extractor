@@ -6,6 +6,7 @@ from pathlib import Path
 from raw.utils import transform, load
 from raw.settings.config import settings
 import logging
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +47,7 @@ def bronze_stats():
         BQ_DATASET = 'bronze'
         BQ_TABLE = Path(__file__).stem
 
-        seasons = ['2015-16', '2016-17', '2017-18', '2018-19', '2019-20', '2020-21', '2021-22', '2022-23', '2023-24', '2024-25']
+        seasons = [f"{year}-{str(year+1)[-2:]}" for year in range(1996, 2025)]
 
         all_stats = []
         for season in seasons:
@@ -54,6 +55,7 @@ def bronze_stats():
             df_season = pd.DataFrame(season_stats.get_data_frames()[0])
             df_season['season'] = season
             all_stats.append(df_season)
+            time.sleep(4)
 
         df_data = pd.concat(all_stats)
         df_data = transform.add_exported_datetime(df_data)

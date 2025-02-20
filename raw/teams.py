@@ -16,17 +16,13 @@ class BigQuerySchema(BaseSettings):
     GP: int
     W: int
     L: int
-    W_PCT: int
     MIN: int
     FGM: int
     FGA: int
-    FG_PCT: float
     FG3M: int
     FG3A: int
-    FG3_PCT: float
     FTM: int
     FTA: int
-    FT_PCT: float
     OREB: int
     DREB: int
     REB: int
@@ -49,7 +45,7 @@ def bronze_teams():
         BQ_DATASET = 'bronze'
         BQ_TABLE = Path(__file__).stem
 
-        seasons = ['2015-16', '2016-17', '2017-18', '2018-19', '2019-20', '2020-21', '2021-22', '2022-23', '2023-24', '2024-25']
+        seasons = [f"{year}-{str(year+1)[-2:]}" for year in range(1996, 2025)]
 
         all_stats = []
         for season in seasons:
@@ -61,7 +57,7 @@ def bronze_teams():
             df_merged = pd.merge(df_season, df_season_adv, on="TEAM_ID", how="inner")
             df_merged['season'] = season
             all_stats.append(df_merged)
-            time.sleep(1)
+            time.sleep(4)
 
         df_data = pd.concat(all_stats)
         df_data = transform.add_exported_datetime(df_data)

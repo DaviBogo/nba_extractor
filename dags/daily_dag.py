@@ -9,12 +9,13 @@ from airflow.operators.python import PythonOperator
 from raw.players import bronze_players
 from raw.stats import bronze_stats
 from raw.teams import bronze_teams
+from raw.dataform_nba_stats import run_dataform_nba_stats
 
 
 with DAG(
     "daily_dag",
     start_date=datetime(2024, 9, 23),
-    schedule="0 9 * * *",
+    schedule="*/15 * * * *",
     catchup=False,
     ) as dag:
 
@@ -32,3 +33,14 @@ with DAG(
         task_id = "bronze_teams",
         python_callable=bronze_teams
     )
+
+    run_dataform_nba_stats = PythonOperator(
+        task_id = "run_dataform_health_score",
+        python_callable=run_dataform_nba_stats
+    )
+
+    [
+        bronze_players,
+        bronze_stats,
+        bronze_teams
+    ] >> run_dataform_nba_stats
